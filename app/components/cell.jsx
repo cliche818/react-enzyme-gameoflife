@@ -17,9 +17,19 @@ var Cell = React.createClass({
   },
 
   onBirth(message) {
-    if (this.isNeighbour(message)) {
+    if(this.isNeighbour(message)) {
       this.setState({neighbourCount: this.state.neighbourCount + 1});
     }
+  },
+
+  onDeath(message) {
+    if(this.isNeighbour(message)) {
+      this.setState({neighbourCount: this.state.neighbourCount - 1});
+    }
+  },
+
+  setNeighbourCount(count) {
+    this.setState({neighbourCount: count});
   },
 
   isNeighbour(message) {
@@ -33,7 +43,7 @@ var Cell = React.createClass({
 
   render() {
     return (
-      <div className="cell dead"/>
+      <div className="cell"/>
     )
   }
 });
