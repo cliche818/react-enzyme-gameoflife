@@ -6,11 +6,19 @@ import Cell from '../app/components/cell';
 
 describe('<Cell />', function() {
 
+  describe('constructor', () => {
+    it('should set the status of the cell to false if no props given', () => {
+      this.wrapper = shallow(<Cell x={1} y y={1} />);
+      this.instance = this.wrapper.instance();
+      expect(this.instance.state.alive).to.equal(false);
+    });
+  });
+
   describe('onBirth', () => {
     beforeEach(() => {
       this.wrapper = mount(<Cell x={1} y={1} />);
       this.instance = this.wrapper.instance();
-    })
+    });
 
     it('should increment neighbour count if the message is from neighbours horizontally', () => {
       this.instance.onBirth({x: 0, y: 1});
@@ -51,7 +59,7 @@ describe('<Cell />', function() {
       this.wrapper = mount(<Cell x={1} y={1} />);
       this.instance = this.wrapper.instance();
       this.instance.setNeighbourCount(8);
-    })
+    });
 
     it('should increment neighbour count if the message is from neighbours horizontally', () => {
       this.instance.onDeath({x: 0, y: 1});
@@ -87,4 +95,65 @@ describe('<Cell />', function() {
     });
   });
 
+  describe('onEvaluate', () => {
+    it('should set its status to alive if the neighbour count is 2 and is currently alive', () => {
+      this.wrapper = mount(<Cell x={1} y={1} alive={true}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(2);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(true);
+    });
+
+    it('should set its status to alive if the neighbour count is 3 and is currently alive', () => {
+      this.wrapper = mount(<Cell x={1} y={1} alive={true}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(3);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(true);
+    });
+
+    it('should set its status to not alive if the neighbour count is not 2 or 3 and is currently alive', () => {
+      this.wrapper = mount(<Cell x={1} y={1} alive={true}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(0);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(false);
+
+      this.wrapper = mount(<Cell x={1} y={1} alive={true}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(1);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(false);
+
+      this.wrapper = mount(<Cell x={1} y={1} alive={true}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(4);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(false);
+
+      this.wrapper = mount(<Cell x={1} y={1} alive={true}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(5);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(false);
+
+      this.wrapper = mount(<Cell x={1} y={1} alive={true}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(6);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(false);
+
+      this.wrapper = mount(<Cell x={1} y={1} alive={true}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(7);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(false);
+
+      this.wrapper = mount(<Cell x={1} y={1} alive={true}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(8);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(false);
+    });
+  });
 });

@@ -7,12 +7,13 @@ import '../styles/cell';
 var Cell = React.createClass({
   propTypes: {
     x: React.PropTypes.number.isRequired,
-    y: React.PropTypes.number.isRequired
+    y: React.PropTypes.number.isRequired,
   },
 
   getInitialState() {
     return {
-      neighbourCount: 0
+      neighbourCount: 0,
+      alive: this.props.alive || false
     }
   },
 
@@ -25,6 +26,16 @@ var Cell = React.createClass({
   onDeath(message) {
     if(this.isNeighbour(message)) {
       this.setState({neighbourCount: this.state.neighbourCount - 1});
+    }
+  },
+
+  onEvaluate() {
+    if (this.state.alive == true) {
+      if (this.state.neighbourCount === 2 || this.state.neighbourCount === 3) {
+        this.setState({alive: true});
+      } else if (this.state.neighbourCount < 2 || this.state.neighbourCount > 3) {
+        this.setState({alive: false});
+      }
     }
   },
 

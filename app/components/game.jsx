@@ -6,6 +6,17 @@ import '../styles/game';
 
 var Game = React.createClass({
 
+  RECEIVING_MESSAGES: 0,
+  SENDING_MESSAGE: 1,
+
+  getInitialState() {
+    return {
+      messageState: this.RECEIVING_MESSAGES,
+      messageBus: [],
+      generation: 0
+    }
+  },
+
   buildCells() {
     var cells = [];
 
