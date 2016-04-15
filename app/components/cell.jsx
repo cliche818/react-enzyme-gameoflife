@@ -52,9 +52,17 @@ var Cell = React.createClass({
 
   },
 
+  addAliveClassName() {
+    if (this.state.alive) {
+      return ' alive';
+    } else {
+      return '';
+    }
+  },
+
   render() {
     return (
-      <div className="cell"/>
+      <div className={"cell" + this.addAliveClassName()}/>
     )
   }
 });

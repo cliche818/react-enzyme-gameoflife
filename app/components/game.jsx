@@ -9,6 +9,11 @@ var Game = React.createClass({
   RECEIVING_MESSAGES: 0,
   SENDING_MESSAGE: 1,
 
+  propTypes: {
+    x: React.PropTypes.number.isRequired,
+    y: React.PropTypes.number.isRequired
+  },
+
   getInitialState() {
     return {
       messageState: this.RECEIVING_MESSAGES,
@@ -22,7 +27,8 @@ var Game = React.createClass({
 
     for (let x = 0; x < this.props.x; x += 1) {
       for (let y = 0; y < this.props.y; y += 1) {
-        cells.push(<Cell x={x} y={y}/>);
+        let aliveNumber = Math.floor(Math.random() * 10 + 1);
+        cells.push(<Cell x={x} y={y} alive={aliveNumber < 4 }/>);
       }
     }
 
