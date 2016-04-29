@@ -8,12 +8,18 @@ var Cell = React.createClass({
   propTypes: {
     x: React.PropTypes.number.isRequired,
     y: React.PropTypes.number.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    alive: React.PropTypes.bool.isRequired
   },
 
   getInitialState() {
+    let aliveStatus = this.props.alive || false;
+
+    this.props.onChange();
+
     return {
       neighbourCount: 0,
-      alive: this.props.alive || false
+      alive: aliveStatus
     }
   },
 

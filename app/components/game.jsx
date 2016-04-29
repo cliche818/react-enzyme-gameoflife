@@ -28,7 +28,7 @@ var Game = React.createClass({
     for (let x = 0; x < this.props.x; x += 1) {
       for (let y = 0; y < this.props.y; y += 1) {
         let aliveNumber = Math.floor(Math.random() * 10 + 1);
-        cells.push(<Cell x={x} y={y} alive={aliveNumber < 4 }/>);
+        cells.push(<Cell x={x} y={y} alive={aliveNumber < 4 } onChange={ function() {} }  />);
       }
     }
 
