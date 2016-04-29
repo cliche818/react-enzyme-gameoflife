@@ -37,6 +37,14 @@ var Game = React.createClass({
 
   sendMessage(data) {
     this.setState({messageBus: this.state.messageBus.concat([data])})
+    
+    if (this.state.messageBus.length == (this.props.x * this.props.y)) {
+      this.processMessage();
+    }
+  },
+
+  processMessage() {
+
   },
 
   render() {
