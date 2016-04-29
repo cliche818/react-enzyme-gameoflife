@@ -35,6 +35,10 @@ var Game = React.createClass({
     return cells
   },
 
+  sendMessage(data) {
+    this.setState({messageBus: this.state.messageBus.concat([data])})
+  },
+
   render() {
     return (
       <div id="game">
