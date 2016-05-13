@@ -4,6 +4,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import Game from '../app/components/game';
+import Cell from '../app/components/cell';
 
 describe('<Game />', function () {
   var genericCallback = function() {};
@@ -42,6 +43,16 @@ describe('<Game />', function () {
       }
 
       mock.verify();
+    });
+
+    it('should call all the cells onBirth function for an alive message in the queue', function(){
+      const wrapper = mount(<Game x={1} y={1}/>);
+      var spy = sinon.spy(wrapper.instance().refs['cell-0-0'], 'onBirth');
+
+      const fakeData =  {"x": 1, "y": 1, "alive": true};
+      wrapper.instance().sendMessage(fakeData);
+
+      expect(spy.calledOnce).to.equal(true);
     });
   });
 });

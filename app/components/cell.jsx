@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 
 import '../styles/cell';
 
-
 var Cell = React.createClass({
   propTypes: {
     x: React.PropTypes.number.isRequired,
@@ -73,4 +72,5 @@ var Cell = React.createClass({
   }
 });
 
+window.Cell = Cell
 module.exports = Cell;
