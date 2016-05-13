@@ -53,7 +53,13 @@ var Game = React.createClass({
       for (var ref in this.refs) {
         this.refs[ref].onBirth(message);
       }
+    } else {
+      for (var ref in this.refs) {
+        this.refs[ref].onDeath(message);
+      }
     }
+    
+    this.setState({messageBus: []});
   },
 
   render() {
