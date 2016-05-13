@@ -59,7 +59,15 @@ var Game = React.createClass({
       }
     }
     
+    this.sendEvaluateMessage();
+    
     this.setState({messageBus: []});
+  },
+
+  sendEvaluateMessage() {
+    for (var ref in this.refs) {
+      this.refs[ref].onEvaluate();
+    }
   },
 
   render() {

@@ -65,8 +65,18 @@ describe('<Game />', function () {
       expect(spy.calledOnce).to.equal(true);
     });
 
+    it('should send onEvaluate message to all cells when all messages are processed', function() {
+      const wrapper = mount(<Game x={1} y={1}/>);
+      var spy = sinon.spy(wrapper.instance().refs['cell-0-0'], 'onEvaluate');
+
+      const fakeData =  {"x": 1, "y": 1, "alive": false};
+      wrapper.instance().sendMessage(fakeData);
+
+      expect(spy.calledOnce).to.equal(true);
+    });
+
     it('should empty the message queue after all messages are send', function() {
-      const wrapper = mount(<Game x={1} y={1}/>)
+      const wrapper = mount(<Game x={1} y={1}/>);
 
       const fakeData =  {"x": 1, "y": 1, "alive": false};
       wrapper.instance().sendMessage(fakeData);
