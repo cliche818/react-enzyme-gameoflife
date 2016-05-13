@@ -11,15 +11,20 @@ describe('<Cell />', function() {
 
   describe('constructor', () => {
     it('should set the status of the cell to false if no props given', () => {
-      this.wrapper = shallow(<Cell x={1} y={1} onChange={ genericCallBack }/>);
+      this.wrapper = shallow(<Cell x={1} y={1} alive={false} onChange={ genericCallBack }/>);
       this.instance = this.wrapper.instance();
       expect(this.instance.state.alive).to.equal(false);
     });
 
     it('should respond back to parent telling its state', () => {
-      var callback = sinon.spy();
-      this.wrapper = mount(<Cell x={1} y={1} onChange={callback} />);
-      expect(callback.called).to.equal(true)
+      // var callback = sinon.spy();
+      var parent = {
+        genericCallBack: function() {}
+      };
+      var spy = sinon.spy(parent, 'genericCallBack');
+
+      this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={parent.genericCallBack} />);
+      expect(spy.calledOnce).to.equal(true)
     });
   });
 
@@ -105,6 +110,17 @@ describe('<Cell />', function() {
   });
 
   describe('onEvaluate', () => {
+    it('should call its onChange callback', () => {
+      var parent = {
+        genericCallBack: function() {}
+      };
+      var spy = sinon.spy(parent, 'genericCallBack');
+      this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={parent.genericCallBack}/>);
+
+      this.wrapper.instance().onEvaluate();
+      expect(spy.calledTwice).to.equal(true);
+    });
+
     it('should set its status to alive if the neighbour count is 2 and is currently alive', () => {
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();

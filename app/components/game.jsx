@@ -9,6 +9,8 @@ var Game = React.createClass({
   RECEIVING_MESSAGES: 0,
   SENDING_MESSAGE: 1,
 
+  messageBus: [],
+
   propTypes: {
     x: React.PropTypes.number.isRequired,
     y: React.PropTypes.number.isRequired
@@ -22,46 +24,48 @@ var Game = React.createClass({
     }
   },
 
-  componentDidMount() {
-
-  },
-
   buildCells() {
     var cells = [];
 
     for (let x = 0; x < this.props.x; x += 1) {
       for (let y = 0; y < this.props.y; y += 1) {
         let aliveNumber = Math.floor(Math.random() * 10 + 1);
-        cells.push(<Cell ref={`cell-${x}-${y}`} x={x} y={y} alive={aliveNumber < 4 } onChange={ () => this.sendMessage }  />);
+        cells.push(<Cell ref={`cell-${x}-${y}`} x={x} y={y} alive={aliveNumber < 4 } onChange={ this.sendMessage }/>);
       }
     }
-    
+
     return cells;
   },
 
   sendMessage(data) {
-    this.setState({messageBus: this.state.messageBus.concat([data])});
-
-    if (this.state.messageBus.length == (this.props.x * this.props.y)) {
+    this.messageBus = this.messageBus.concat([data]);
+    console.log(this.messageBus);
+    
+    console.log('aaaaa');
+    if (this.messageBus.length == (this.props.x * this.props.y)) {
+      console.log('bbbbb');
       this.processMessage();
     }
   },
 
   processMessage() {
-    let message = this.state.messageBus[0];
-    if (message.alive) {
-      for (var ref in this.refs) {
-        this.refs[ref].onBirth(message);
-      }
-    } else {
-      for (var ref in this.refs) {
-        this.refs[ref].onDeath(message);
+    for (let i = 0; i < this.messageBus.length; i++) {
+      let message = this.messageBus[i];
+
+      if (message.alive) {
+        for (var ref in this.refs) {
+          this.refs[ref].onBirth(message);
+        }
+      } else {
+        for (var ref in this.refs) {
+          this.refs[ref].onDeath(message);
+        }
       }
     }
+
+    setTimeout(this.sendEvaluateMessage, 1000);
     
-    this.sendEvaluateMessage();
-    
-    this.setState({messageBus: []});
+    this.messageBus = [];
   },
 
   sendEvaluateMessage() {

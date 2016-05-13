@@ -14,12 +14,18 @@ var Cell = React.createClass({
   getInitialState() {
     let aliveStatus = this.props.alive || false;
 
-    this.props.onChange();
-
     return {
       neighbourCount: 0,
       alive: aliveStatus
     }
+  },
+
+  componentDidMount() {
+    this.props.onChange(this.message());
+  },
+
+  message() {
+    return {x: this.props.x, y: this.props.y, alive: this.props.alive}
   },
 
   onBirth(message) {
@@ -42,6 +48,8 @@ var Cell = React.createClass({
         this.setState({alive: false});
       }
     }
+
+    this.props.onChange(this.message());
   },
 
   setNeighbourCount(count) {
@@ -72,5 +80,4 @@ var Cell = React.createClass({
   }
 });
 
-window.Cell = Cell
 module.exports = Cell;
