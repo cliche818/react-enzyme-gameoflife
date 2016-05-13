@@ -28,7 +28,7 @@ var Game = React.createClass({
     for (let x = 0; x < this.props.x; x += 1) {
       for (let y = 0; y < this.props.y; y += 1) {
         let aliveNumber = Math.floor(Math.random() * 10 + 1);
-        cells.push(<Cell x={x} y={y} alive={aliveNumber < 4 } onChange={ function() {} }  />);
+        cells.push(<Cell x={x} y={y} alive={aliveNumber < 4 } onChange={ () => this.sendMessage }  />);
       }
     }
 
@@ -37,7 +37,7 @@ var Game = React.createClass({
 
   sendMessage(data) {
     this.setState({messageBus: this.state.messageBus.concat([data])})
-    
+
     if (this.state.messageBus.length == (this.props.x * this.props.y)) {
       this.processMessage();
     }
