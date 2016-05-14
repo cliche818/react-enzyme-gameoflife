@@ -39,11 +39,8 @@ var Game = React.createClass({
 
   sendMessage(data) {
     this.messageBus = this.messageBus.concat([data]);
-    console.log(this.messageBus);
-    
-    console.log('aaaaa');
+
     if (this.messageBus.length == (this.props.x * this.props.y)) {
-      console.log('bbbbb');
       this.processMessage();
     }
   },
@@ -62,13 +59,14 @@ var Game = React.createClass({
         }
       }
     }
-
-    setTimeout(this.sendEvaluateMessage, 1000);
+    
+    setTimeout(this.sendEvaluateMessage, 2000);
     
     this.messageBus = [];
   },
 
   sendEvaluateMessage() {
+    console.log('hii');
     for (var ref in this.refs) {
       this.refs[ref].onEvaluate();
     }

@@ -24,7 +24,7 @@ describe('<Game />', function () {
       const fakeData =  {"x": 1, "y": 2, "alive": true};
       expect(wrapper.instance().sendMessage(fakeData));
 
-      expect(wrapper.instance().state.messageBus.length).to.equal(1);
+      expect(wrapper.instance().messageBus.length).to.equal(1);
     });
   });
 
@@ -70,7 +70,9 @@ describe('<Game />', function () {
       var spy = sinon.spy(wrapper.instance().refs['cell-0-0'], 'onEvaluate');
 
       const fakeData =  {"x": 1, "y": 1, "alive": false};
+      var clock = sinon.useFakeTimers();
       wrapper.instance().sendMessage(fakeData);
+      clock.tick( 2000 );
 
       expect(spy.calledOnce).to.equal(true);
     });

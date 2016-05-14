@@ -13,10 +13,12 @@ var Cell = React.createClass({
 
   getInitialState() {
     let aliveStatus = this.props.alive || false;
+    let aliveClass = aliveStatus ? 'alive' : '';
 
     return {
       neighbourCount: 0,
-      alive: aliveStatus
+      alive: aliveStatus,
+      aliveClass: aliveClass
     }
   },
 
@@ -43,15 +45,16 @@ var Cell = React.createClass({
   onEvaluate() {
     if (this.state.alive == true) {
       if (this.state.neighbourCount === 2 || this.state.neighbourCount === 3) {
-        this.setState({alive: true});
+        this.setState({alive: true, aliveClass: 'alive'});
       } else if (this.state.neighbourCount < 2 || this.state.neighbourCount > 3) {
-        this.setState({alive: false});
+        this.setState({alive: false, aliveClass: ''});
       }
     }
 
     this.props.onChange(this.message());
   },
 
+  // used for testing
   setNeighbourCount(count) {
     this.setState({neighbourCount: count});
   },
@@ -65,17 +68,9 @@ var Cell = React.createClass({
 
   },
 
-  addAliveClassName() {
-    if (this.state.alive) {
-      return ' alive';
-    } else {
-      return '';
-    }
-  },
-
   render() {
     return (
-      <div className={"cell" + this.addAliveClassName()}/>
+      <div className={`cell ${this.state.aliveClass}` }/>
     )
   }
 });
