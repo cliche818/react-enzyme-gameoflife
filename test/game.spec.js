@@ -72,7 +72,7 @@ describe('<Game />', function () {
       const fakeData =  {"x": 1, "y": 1, "alive": false};
       var clock = sinon.useFakeTimers();
       wrapper.instance().sendMessage(fakeData);
-      clock.tick( 2000 );
+      clock.tick( 300 );
 
       expect(spy.calledOnce).to.equal(true);
     });

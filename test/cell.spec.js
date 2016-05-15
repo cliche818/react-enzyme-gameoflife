@@ -121,6 +121,14 @@ describe('<Cell />', function() {
       expect(spy.calledTwice).to.equal(true);
     });
 
+    it('needs to reset its neighbourCount', () => {
+      this.wrapper = shallow(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(2);
+      this.instance.onEvaluate();
+      expect(this.wrapper.instance().state.neighbourCount).to.equal(0);
+    });
+
     it('should set its status to alive if the neighbour count is 2 and is currently alive', () => {
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
@@ -179,6 +187,14 @@ describe('<Cell />', function() {
       this.instance.setNeighbourCount(8);
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(false);
+    });
+
+    it ('should become alive if it is currently dead and have exactly 3 alive neighbours', () => {
+      this.wrapper = mount(<Cell x={1} y={1} alive={false} onChange={genericCallBack}/>);
+      this.instance = this.wrapper.instance();
+      this.instance.setNeighbourCount(3);
+      this.instance.onEvaluate();
+      expect(this.instance.state.alive).to.equal(true);
     });
   });
 });

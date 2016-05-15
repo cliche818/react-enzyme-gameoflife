@@ -30,7 +30,7 @@ var Game = React.createClass({
     for (let x = 0; x < this.props.x; x += 1) {
       for (let y = 0; y < this.props.y; y += 1) {
         let aliveNumber = Math.floor(Math.random() * 10 + 1);
-        cells.push(<Cell ref={`cell-${x}-${y}`} x={x} y={y} alive={aliveNumber < 4 } onChange={ this.sendMessage }/>);
+        cells.push(<Cell ref={`cell-${x}-${y}`} x={x} y={y} alive={aliveNumber > 4 } onChange={ this.sendMessage }/>);
       }
     }
 
@@ -60,21 +60,25 @@ var Game = React.createClass({
       }
     }
     
-    setTimeout(this.sendEvaluateMessage, 2000);
+    setTimeout(this.sendEvaluateMessage, 300);
     
     this.messageBus = [];
   },
 
   sendEvaluateMessage() {
-    console.log('hii');
     for (var ref in this.refs) {
       this.refs[ref].onEvaluate();
     }
+    this.setState({generation: this.state.generation + 1});
   },
 
   render() {
     return (
       <div id="game">
+        <div id="game-counter">
+          { `Generation Number: ${this.state.generation}` }
+        </div>
+
         { this.buildCells() }
       </div>
     )

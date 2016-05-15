@@ -43,14 +43,19 @@ var Cell = React.createClass({
   },
 
   onEvaluate() {
-    if (this.state.alive == true) {
+    if (this.state.alive) {
       if (this.state.neighbourCount === 2 || this.state.neighbourCount === 3) {
         this.setState({alive: true, aliveClass: 'alive'});
       } else if (this.state.neighbourCount < 2 || this.state.neighbourCount > 3) {
         this.setState({alive: false, aliveClass: ''});
       }
+    } else {
+      if (this.state.neighbourCount === 3) {
+        this.setState({alive: true, aliveClass: 'alive'});
+      }
     }
 
+    this.setState({neighbourCount: 0});
     this.props.onChange(this.message());
   },
 
