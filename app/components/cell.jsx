@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
 import '../styles/cell';
@@ -22,41 +22,52 @@ var Cell = React.createClass({
     }
   },
 
-  componentDidMount() {
-    this.props.onChange(this.message());
-  },
-
   message() {
-    return {x: this.props.x, y: this.props.y, alive: this.props.alive}
+    return {x: this.props.x, y: this.props.y, alive: this.state.alive}
   },
 
   onBirth(message) {
-    if(this.isNeighbour(message)) {
+    // console.log('everyone gets one');
+    if (this.isNeighbour(message)) {
+      console.log(`BIRTH x: ${this.props.x} y: ${this.props.y} valid message: x ${message.x}, y ${message.y}, alive ${message.alive}`)
       this.setState({neighbourCount: this.state.neighbourCount + 1});
     }
   },
 
   onDeath(message) {
-    if(this.isNeighbour(message)) {
+    // console.log('everyone gets one');
+    if (this.isNeighbour(message)) {
+      console.log(`DEATH x: ${this.props.x} y: ${this.props.y} valid message: x ${message.x}, y ${message.y}, alive ${message.alive}`)
       this.setState({neighbourCount: this.state.neighbourCount - 1});
     }
   },
 
   onEvaluate() {
+    // console.log('process')
+    // console.log(`x: ${this.props.x} y: ${this.props.y} alive: ${this.state.alive} neighbourCount: ${this.state.neighbourCount}`);
     if (this.state.alive) {
       if (this.state.neighbourCount === 2 || this.state.neighbourCount === 3) {
-        this.setState({alive: true, aliveClass: 'alive'});
+        this.setState({alive: true, aliveClass: 'alive', neighbourCount: 0}, function () {
+          this.props.onChange(this.message());
+        }.bind(this));
       } else if (this.state.neighbourCount < 2 || this.state.neighbourCount > 3) {
-        this.setState({alive: false, aliveClass: ''});
+        this.setState({alive: false, aliveClass: '', neighbourCount: 0}, function () {
+          this.props.onChange(this.message());
+        }.bind(this));
       }
-    } else {
+    }
+    else {
       if (this.state.neighbourCount === 3) {
-        this.setState({alive: true, aliveClass: 'alive'});
+        this.setState({alive: true, aliveClass: 'alive', neighbourCount: 0}, function () {
+          this.props.onChange(this.message());
+        }.bind(this));
+      } else {
+        this.setState({neighbourCount: 0}, function () {
+          this.props.onChange(this.message());
+        }.bind(this));
       }
     }
 
-    this.setState({neighbourCount: 0});
-    this.props.onChange(this.message());
   },
 
   // used for testing

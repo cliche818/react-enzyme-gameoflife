@@ -15,17 +15,6 @@ describe('<Cell />', function() {
       this.instance = this.wrapper.instance();
       expect(this.instance.state.alive).to.equal(false);
     });
-
-    it('should respond back to parent telling its state', () => {
-      // var callback = sinon.spy();
-      var parent = {
-        genericCallBack: function() {}
-      };
-      var spy = sinon.spy(parent, 'genericCallBack');
-
-      this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={parent.genericCallBack} />);
-      expect(spy.calledOnce).to.equal(true)
-    });
   });
 
   describe('onBirth', () => {
@@ -118,7 +107,7 @@ describe('<Cell />', function() {
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={parent.genericCallBack}/>);
 
       this.wrapper.instance().onEvaluate();
-      expect(spy.calledTwice).to.equal(true);
+      expect(spy.calledOnce).to.equal(true);
     });
 
     it('needs to reset its neighbourCount', () => {

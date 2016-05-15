@@ -83,7 +83,7 @@ describe('<Game />', function () {
       const fakeData =  {"x": 1, "y": 1, "alive": false};
       wrapper.instance().sendMessage(fakeData);
 
-      expect(wrapper.instance().state.messageBus.length).to.equal(0);
+      expect(wrapper.instance().messageBus.length).to.equal(0);
     });
   });
 });

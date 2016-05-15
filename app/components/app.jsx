@@ -5,6 +5,10 @@ import Game from './game';
 import '../styles/app';
 
 class App extends Component {
+	componentDidMount() {
+    console.log(this.refs['game'])
+  }
+
 	render () {
 		return (
 			<div id="app">
@@ -13,7 +17,7 @@ class App extends Component {
           global!
         </div>
 
-				<Game x={5} y={5}/>
+				<Game ref='game' x={5} y={5}/>
 			</div>
 		)
 	}
