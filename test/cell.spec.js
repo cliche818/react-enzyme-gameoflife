@@ -27,14 +27,14 @@ describe('<Cell />', function() {
       this.instance.onBirth({x: 0, y: 1});
       this.instance.onBirth({x: 2, y: 1});
 
-      expect(this.instance.state.neighbourCount).to.equal(2);
+      expect(this.instance.aliveNeighbourCount).to.equal(2);
     });
 
     it('should increment neighbour count if the message is from neighbours vertically', () => {
       this.instance.onBirth({x: 1, y: 0});
       this.instance.onBirth({x: 1, y: 2});
 
-      expect(this.instance.state.neighbourCount).to.equal(2);
+      expect(this.instance.aliveNeighbourCount).to.equal(2);
     });
 
     it('should increment neighbour count if the message is from neighbours diagonally', () => {
@@ -43,7 +43,7 @@ describe('<Cell />', function() {
       this.instance.onBirth({x: 0, y: 0});
       this.instance.onBirth({x: 2, y: 0});
 
-      expect(this.instance.state.neighbourCount).to.equal(4);
+      expect(this.instance.aliveNeighbourCount).to.equal(4);
     });
 
     it('should not increment neighbour count if its not from a neighbour', () => {
@@ -53,48 +53,7 @@ describe('<Cell />', function() {
       this.instance.onBirth({x: 0, y: 3});
       this.instance.onBirth({x: 3, y: 0});
 
-      expect(this.instance.state.neighbourCount).to.equal(0);
-    });
-  });
-
-  describe('onDeath', () => {
-    beforeEach(() => {
-      this.wrapper = mount(<Cell x={1} y={1} onChange={genericCallBack}/>);
-      this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(8);
-    });
-
-    it('should increment neighbour count if the message is from neighbours horizontally', () => {
-      this.instance.onDeath({x: 0, y: 1});
-      this.instance.onDeath({x: 2, y: 1});
-
-      expect(this.instance.state.neighbourCount).to.equal(6);
-    });
-
-    it('should increment neighbour count if the message is from neighbours vertically', () => {
-      this.instance.onDeath({x: 1, y: 0});
-      this.instance.onDeath({x: 1, y: 2});
-
-      expect(this.instance.state.neighbourCount).to.equal(6);
-    });
-
-    it('should increment neighbour count if the message is from neighbours diagonally', () => {
-      this.instance.onDeath({x: 0, y: 2});
-      this.instance.onDeath({x: 2, y: 2});
-      this.instance.onDeath({x: 0, y: 0});
-      this.instance.onDeath({x: 2, y: 0});
-
-      expect(this.instance.state.neighbourCount).to.equal(4);
-    });
-
-    it('should not increment neighbour count if its not from a neighbour', () => {
-      this.instance.onDeath({x: 3, y: 4});
-      this.instance.onDeath({x: 1, y: 4});
-      this.instance.onDeath({x: 4, y: 1});
-      this.instance.onDeath({x: 0, y: 3});
-      this.instance.onDeath({x: 3, y: 0});
-
-      expect(this.instance.state.neighbourCount).to.equal(8);
+      expect(this.instance.aliveNeighbourCount).to.equal(0);
     });
   });
 
@@ -111,17 +70,17 @@ describe('<Cell />', function() {
     });
 
     it('needs to reset its neighbourCount', () => {
-      this.wrapper = shallow(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
+      this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(2);
+      this.instance.aliveNeighbourCount = 2;
       this.instance.onEvaluate();
-      expect(this.wrapper.instance().state.neighbourCount).to.equal(0);
+      expect(this.wrapper.instance().aliveNeighbourCount).to.equal(0);
     });
 
     it('should set its status to alive if the neighbour count is 2 and is currently alive', () => {
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(2);
+      this.instance.aliveNeighbourCount = 2;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(true);
     });
@@ -129,7 +88,7 @@ describe('<Cell />', function() {
     it('should set its status to alive if the neighbour count is 3 and is currently alive', () => {
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(3);
+      this.instance.aliveNeighbourCount = 3;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(true);
     });
@@ -137,43 +96,43 @@ describe('<Cell />', function() {
     it('should set its status to not alive if the neighbour count is not 2 or 3 and is currently alive', () => {
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(0);
+      this.instance.aliveNeighbourCount = 0;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(false);
 
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(1);
+      this.instance.aliveNeighbourCount = 1;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(false);
 
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(4);
+      this.instance.aliveNeighbourCount = 4;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(false);
 
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(5);
+      this.instance.aliveNeighbourCount = 5;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(false);
 
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(6);
+      this.instance.aliveNeighbourCount = 6;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(false);
 
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(7);
+      this.instance.aliveNeighbourCount = 7;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(false);
 
       this.wrapper = mount(<Cell x={1} y={1} alive={true} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(8);
+      this.instance.aliveNeighbourCount = 8;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(false);
     });
@@ -181,7 +140,7 @@ describe('<Cell />', function() {
     it ('should become alive if it is currently dead and have exactly 3 alive neighbours', () => {
       this.wrapper = mount(<Cell x={1} y={1} alive={false} onChange={genericCallBack}/>);
       this.instance = this.wrapper.instance();
-      this.instance.setNeighbourCount(3);
+      this.instance.aliveNeighbourCount = 3;
       this.instance.onEvaluate();
       expect(this.instance.state.alive).to.equal(true);
     });

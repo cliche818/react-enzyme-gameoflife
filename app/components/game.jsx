@@ -18,14 +18,11 @@ var Game = React.createClass({
 
   componentDidMount() {
     if (this.messageBus.length == (this.props.x * this.props.y)) {
-      // console.log('component did mount: just once');
       this.processMessage();
     }
   },
 
   buildCells() {
-    // console.log('only run once');
-
     var cells = [];
 
     for (let x = 0; x < this.props.x; x += 1) {
@@ -40,11 +37,9 @@ var Game = React.createClass({
   },
 
   sendMessage(data) {
-    // console.log(`recevied message: x ${data.x}, y ${data.y}, alive ${data.alive}`);
     this.messageBus = this.messageBus.concat([data]);
 
     if (this.messageBus.length == (this.props.x * this.props.y)) {
-      // console.log('called?')
       this.processMessage();
     }
   },
@@ -52,24 +47,15 @@ var Game = React.createClass({
   processMessage() {
     for (let i = 0; i < this.messageBus.length; i++) {
       let message = this.messageBus[i];
-
-      // console.log(message);
-      // console.log(this.cells);
-      //console.log(`refs: ${this.refs['cell-0-0']}`);
+      
       if (message.alive) {
         for (var ref in this.refs) {
-          // console.log(` birth: ${ref}`)
           this.refs[ref].onBirth(message);
         }
-      } else {
-        for (var ref in this.refs) {
-          // console.log(` death: ${ref}`)
-          this.refs[ref].onDeath(message);
-        }
-      }
+      } 
     }
 
-    setTimeout(this.sendEvaluateMessage, 300);
+    setTimeout(this.sendEvaluateMessage, 200);
 
     this.messageBus = [];
   },

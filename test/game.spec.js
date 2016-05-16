@@ -54,16 +54,6 @@ describe('<Game />', function () {
 
       expect(spy.calledOnce).to.equal(true);
     });
-    
-    it('should call all the cells onDeath function for a not alive message in the queue', function(){
-      const wrapper = mount(<Game x={1} y={1}/>);
-      var spy = sinon.spy(wrapper.instance().refs['cell-0-0'], 'onDeath');
-
-      const fakeData =  {"x": 1, "y": 1, "alive": false};
-      wrapper.instance().sendMessage(fakeData);
-
-      expect(spy.calledOnce).to.equal(true);
-    });
 
     it('should send onEvaluate message to all cells when all messages are processed', function() {
       const wrapper = mount(<Game x={1} y={1}/>);
@@ -72,7 +62,7 @@ describe('<Game />', function () {
       const fakeData =  {"x": 1, "y": 1, "alive": false};
       var clock = sinon.useFakeTimers();
       wrapper.instance().sendMessage(fakeData);
-      clock.tick( 300 );
+      clock.tick( 200 );
 
       expect(spy.calledOnce).to.equal(true);
     });
