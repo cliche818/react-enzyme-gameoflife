@@ -14,7 +14,7 @@ var Cell = React.createClass({
 
   getInitialState() {
     let aliveStatus = this.props.alive || false;
-    let aliveClass = aliveStatus ? 'alive' : '';
+    let aliveClass = aliveStatus ? 'alive' : 'not-alive';
 
     return {
       alive: aliveStatus,
@@ -37,7 +37,7 @@ var Cell = React.createClass({
       if (this.aliveNeighbourCount === 2 || this.aliveNeighbourCount === 3) {
         this.props.onChange(this.message());
       } else {
-        this.setState({alive: false, aliveClass: ''}, function () {
+        this.setState({alive: false, aliveClass: 'not-alive'}, function () {
           this.props.onChange(this.message());
         }.bind(this));
       }

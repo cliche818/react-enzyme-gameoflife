@@ -28,7 +28,7 @@ var Game = React.createClass({
     for (let x = 0; x < this.props.x; x += 1) {
       for (let y = 0; y < this.props.y; y += 1) {
         let aliveNumber = Math.floor(Math.random() * 10 + 1);
-        let alive = aliveNumber > 4;
+        let alive = aliveNumber > 5;
         cells.push(<Cell ref={`cell-${x}-${y}`} x={x} y={y} alive={ alive } onChange={ this.sendMessage }/>);
         this.messageBus = this.messageBus.concat({x: x, y: y, alive: alive})
       }
@@ -68,7 +68,7 @@ var Game = React.createClass({
 
   render() {
     return (
-      <div id="game">
+      <div id="game" style={{height: 50 * this.props.y, width: 50 * this.props.x}}>
         {this.buildCells()}
       </div>
     )

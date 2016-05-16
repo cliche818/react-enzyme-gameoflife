@@ -17,7 +17,7 @@ class App extends Component {
           global!
         </div>
 
-				<Game ref='game' x={5} y={5}/>
+				<Game ref='game' x={50} y={50}/>
 			</div>
 		)
 	}
